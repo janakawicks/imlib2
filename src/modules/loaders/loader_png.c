@@ -606,7 +606,6 @@ _save(ImlibImage *im)
     FILE           *f = im->fi->fp;
     png_structp     png_ptr;
     png_infop       info_ptr;
-    misc_data_t     misc;
     const uint32_t *imdata;
     int             x, y, j, interlace;
     png_bytep       row_ptr;
@@ -615,6 +614,9 @@ _save(ImlibImage *im)
     int             quality = 75, compression = 3;
     int             pass, n_passes = 1;
     int             has_alpha;
+    // static storage to avoid UB with setjmp.
+    // see CAVEATS section on the setjmp linux man-page.
+    static misc_data_t  misc;
 
     rc = LOAD_FAIL;
     info_ptr = NULL;
