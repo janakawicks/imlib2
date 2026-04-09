@@ -1,8 +1,10 @@
+#include <unistd.h>
+
 #include "config.h"
 #include "Imlib2_Loader.h"
 #include "ldrs_util.h"
 
-#define MAX_RUNNERS 4           /* Maybe set to Ncpu/2? */
+#define MAX_RUNNERS 4
 
 #include <jxl/decode.h>
 #include <jxl/encode.h>
@@ -13,6 +15,25 @@
 #define DBG_PFX "LDR-jxl"
 
 static const char *const _formats[] = { "jxl" };
+
+#if MAX_RUNNERS > 0
+static size_t
+_get_max_runner_count(void)
+{
+#ifdef _SC_NPROCESSORS_ONLN
+    long nproc;
+
+    nproc = sysconf(_SC_NPROCESSORS_ONLN);
+
+    if (nproc <= 1)
+        return MAX_RUNNERS;
+    else
+        return nproc;
+#else
+    return MAX_RUNNERS;
+#endif
+}
+#endif
 
 static void
 _scanline_cb(void *opaque, size_t x, size_t y,
@@ -56,6 +77,7 @@ _load(ImlibImage *im, int load_data)
 #if MAX_RUNNERS > 0
     unsigned int    n_runners;
     JxlParallelRunner *runner = NULL;
+    size_t max_runners;
 #endif
 
     rc = LOAD_FAIL;
@@ -79,9 +101,10 @@ _load(ImlibImage *im, int load_data)
         goto quit;
 
 #if MAX_RUNNERS > 0
+    max_runners = _get_max_runner_count();
     n_runners = JxlThreadParallelRunnerDefaultNumWorkerThreads();
-    if (n_runners > MAX_RUNNERS)
-        n_runners = MAX_RUNNERS;
+    if (n_runners > max_runners)
+        n_runners = max_runners;
     D("n_runners = %d\n", n_runners);
     runner = JxlThreadParallelRunnerCreate(NULL, n_runners);
     if (!runner)
