@@ -33,7 +33,12 @@ static const test_rec_t exts[] = {
 // { "gif",  { 0, 0 } },
 #ifdef BUILD_HEIF_LOADER
 #ifndef __SANITIZE_ADDRESS__
-#if LIBHEIF_HAVE_VERSION(1, 19, 0)
+#if LIBHEIF_HAVE_VERSION(1, 21, 0)
+#ifndef BUILD_AVIF_LOADER
+   { "avif", {  271316575,  632516970 } },
+#endif
+   { "heic", {  492885808, 2441222648 } },
+#elif LIBHEIF_HAVE_VERSION(1, 19, 0)
 #ifndef BUILD_AVIF_LOADER
    { "avif", {  271316575,  632516970 } },
 #endif
