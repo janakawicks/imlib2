@@ -373,8 +373,8 @@ get_loader(lopt *opt, ImlibLoader **loader)
     {
         if (!strcmp(data, "-->"))
         {
-            *loader = NULL;
-            return 1;
+            E("External picture links are not supported\n");
+            return 0;
         }
         E("Picture frame with unknown mime-type \'%s\' found\n", data);
         return 0;
@@ -536,46 +536,6 @@ _load(ImlibImage *im, int load_data)
 
         unlink(tmp);
     }
-    else
-    {
-        /* The tag actually provides a image url rather than image data.
-         * Practically, dunno if such a tag exists on earth :)
-         * Here's the code anyway...
-         */
-        union id3_field *field;
-        id3_length_t    length;
-        char const     *data;
-        char           *url, *file;
-
-        field = id3_frame_field
-            (id3_tag_get_frame(opt.ctx->tag, opt.index - 1), 4);
-        data = (char const *)id3_field_getbinarydata(field, &length);
-        if (!data || !length)
-        {
-            E("No link image URL present\n");
-            goto quit;
-        }
-        url = (char *)malloc((length + 1) * sizeof(char));
-        strncpy(url, data, length);
-        url[length] = '\0';
-        file = (strncmp(url, "file://", 7) ? url : url + 7);
-        if (!(loader = __imlib_FindBestLoader(file, NULL, 0)))
-        {
-            E("No loader found for file %s\n", file);
-            free(url);
-            goto quit;
-        }
-
-        rc = __imlib_LoadEmbedded(loader, im, load_data, file);
-
-#if USE_TAGS
-        if (!im->loader)
-            __imlib_AttachTag(im, "id3-link-url", 0, url, destructor_data);
-        else
-#endif
-            free(url);
-    }
-
 #if USE_TAGS
     if (!im->loader)
         write_tags(im, &opt);
