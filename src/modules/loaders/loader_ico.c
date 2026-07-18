@@ -190,6 +190,8 @@ ico_read_icon(ico_t *ico, int ino)
     case 1:
     case 4:
     case 8:
+        if (ie->bih.colors < (1U << ie->bih.bpp))
+            goto bail;
         DL("Allocating a %d slot colormap\n", ie->bih.colors);
         if (UINT_MAX / sizeof(uint32_t) < ie->bih.colors)
             goto bail;
