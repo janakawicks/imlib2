@@ -448,6 +448,8 @@ _load(ImlibImage *im, int load_data)
         {
         case PNG_TYPE_IHDR:
 #define P (&chunk->ihdr)
+            if (len != 13)
+                QUIT_WITH_RC(LOAD_BADIMAGE);
             w = htonl(P->w);
             h = htonl(P->h);
             if (!ctx.pch_fctl)
@@ -492,11 +494,11 @@ _load(ImlibImage *im, int load_data)
                 break;          /* Process actual IHDR chunk */
 
             /* Process fake IHDR for frame */
-            memcpy(&cbuf, fptr, len + 12);
+            memcpy(&cbuf, fptr, _PNG_IHDR_SIZE);
             cbuf.ihdr.w = pfctl->w;
             cbuf.ihdr.h = pfctl->h;
             png_set_crc_action(png_ptr, PNG_CRC_QUIET_USE, PNG_CRC_QUIET_USE);
-            png_process_data(png_ptr, info_ptr, (void *)&cbuf, len + 12);
+            png_process_data(png_ptr, info_ptr, (void *)&cbuf, _PNG_IHDR_SIZE);
             png_set_crc_action(png_ptr, PNG_CRC_DEFAULT, PNG_CRC_DEFAULT);
             continue;
 #undef P
