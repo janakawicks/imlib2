@@ -1,6 +1,26 @@
 #include "config.h"
+
+#include <errno.h>
+
 #include "Imlib2_Loader.h"
 #include "compression.h"
+
+int
+decompress_write(int dest, const void *buf, size_t len, size_t *written)
+{
+    if (*written > IMLIB2_DECOMPRESS_MAX_SIZE ||
+        len > IMLIB2_DECOMPRESS_MAX_SIZE - *written)
+    {
+        errno = EFBIG;
+        return 0;
+    }
+
+    if (write(dest, buf, len) != (ssize_t)len)
+        return 0;
+
+    *written += len;
+    return 1;
+}
 
 int
 decompress_load(ImlibImage *im, int load_data, const char *const *pext,

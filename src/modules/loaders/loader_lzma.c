@@ -16,6 +16,7 @@ uncompress_file(const void *fdata, unsigned int fsize, int dest)
     lzma_ret        ret;
     uint8_t         outbuf[OUTBUF_SIZE];
     ssize_t         bytes;
+    size_t          written = 0;
 
     ok = 0;
 
@@ -37,7 +38,7 @@ uncompress_file(const void *fdata, unsigned int fsize, int dest)
             goto quit;
 
         bytes = sizeof(outbuf) - strm.avail_out;
-        if (write(dest, outbuf, bytes) != bytes)
+        if (!decompress_write(dest, outbuf, bytes, &written))
             goto quit;
 
         if (ret == LZMA_STREAM_END)

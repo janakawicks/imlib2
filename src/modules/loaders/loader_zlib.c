@@ -15,6 +15,7 @@ uncompress_file(const void *fdata, unsigned int fsize, int dest)
     z_stream        strm = { 0 };;
     unsigned char   outbuf[OUTBUF_SIZE];
     int             ret = 1, bytes;
+    size_t          written = 0;
 
     ok = 0;
 
@@ -36,7 +37,7 @@ uncompress_file(const void *fdata, unsigned int fsize, int dest)
             goto quit;
 
         bytes = sizeof(outbuf) - strm.avail_out;
-        if (write(dest, outbuf, bytes) != bytes)
+        if (!decompress_write(dest, outbuf, bytes, &written))
             goto quit;
 
         if (ret == Z_STREAM_END)
