@@ -28,7 +28,7 @@ Headers, static libraries and documentation for Imlib2.
 %prep
 %setup -q
 
-%build
+%conf
 archopts="--disable-mmx --disable-amd64"
 %ifarch x86_64
 archopts="--disable-mmx --enable-amd64"
@@ -37,6 +37,8 @@ archopts="--disable-mmx --enable-amd64"
 archopts="--enable-mmx --disable-amd64"
 %endif
 %configure $archopts %{?acflags}
+
+%build
 make %{?_smp_mflags}
 
 %install
