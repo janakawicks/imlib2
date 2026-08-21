@@ -479,6 +479,12 @@ conv_mono_full(const uint8_t *y, int y_stride, const uint8_t *u, int u_stride,
     return J400ToARGB(y, y_stride, dst, dst_stride, width, height);
 }
 
+static          uint16_t
+y4m_read_sample(const uint8_t *src)
+{
+    return ((uint16_t) src[1] << 8) | src[0];
+}
+
 static int
 _load(ImlibImage *im, int load_data)
 {
@@ -665,7 +671,7 @@ _load(ImlibImage *im, int load_data)
             for (int i = 0; i < y4m.w * y4m.h; ++i)
             {
                 /* convert 10-bit to 8-bit */
-                buf_y[i] = (uint8_t) ((*((uint16_t *) (y4m.y) + i)) >> 2);
+                buf_y[i] = y4m_read_sample((const uint8_t *)y4m.y + 2 * i) >> 2;
             }
         }
         else if (y4m.colour_space == Y4M_PARSE_CS_MONO12)
@@ -677,7 +683,7 @@ _load(ImlibImage *im, int load_data)
             for (int i = 0; i < y4m.w * y4m.h; ++i)
             {
                 /* convert 12-bit to 8-bit */
-                buf_y[i] = (uint8_t) ((*((uint16_t *) (y4m.y) + i)) >> 4);
+                buf_y[i] = y4m_read_sample((const uint8_t *)y4m.y + 2 * i) >> 4;
             }
         }
         else if (y4m.colour_space == Y4M_PARSE_CS_MONO14)
@@ -689,7 +695,7 @@ _load(ImlibImage *im, int load_data)
             for (int i = 0; i < y4m.w * y4m.h; ++i)
             {
                 /* convert 14-bit to 8-bit */
-                buf_y[i] = (uint8_t) ((*((uint16_t *) (y4m.y) + i)) >> 6);
+                buf_y[i] = y4m_read_sample((const uint8_t *)y4m.y + 2 * i) >> 6;
             }
         }
         else if (y4m.colour_space == Y4M_PARSE_CS_MONO16)
@@ -701,7 +707,7 @@ _load(ImlibImage *im, int load_data)
             for (int i = 0; i < y4m.w * y4m.h; ++i)
             {
                 /* convert 16-bit to 8-bit */
-                buf_y[i] = (uint8_t) ((*((uint16_t *) (y4m.y) + i)) >> 8);
+                buf_y[i] = y4m_read_sample((const uint8_t *)y4m.y + 2 * i) >> 8;
             }
         }
 
