@@ -172,6 +172,8 @@ _load(ImlibImage *im, int load_data)
     im->w = jimage->x1 - jimage->x0;
     im->h = jimage->y1 - jimage->y0;
     im->has_alpha = jimage->numcomps == 4 || jimage->numcomps == 2;
+    if (!IMAGE_DIMENSIONS_OK(im->w, im->h))
+        goto quit;
     D("WxH=%dx%d alpha=%d numcomp=%d colorspace=%d\n",
       im->w, im->h, im->has_alpha, jimage->numcomps, jimage->color_space);
 
