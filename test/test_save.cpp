@@ -62,7 +62,7 @@ static const test_rec_t exts[] = {
 #ifdef __i386__
    { "jxl",  { 4085622416, 3785409192 } },
 #else
-   { "jxl",  {   78317658, 3046037071 } },
+   { "jxl",  { 1024989790, 3046037071 } },
 #endif
 #elif JPEGXL_NUMERIC_VERSION >= JPEGXL_COMPUTE_NUMERIC_VERSION(0, 10, 0)
 #ifdef __i386__
