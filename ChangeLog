@@ -1,3 +1,37 @@
+v1.12.7 - 2026-08-28
+--------------------
+Acts1631 (6):
+      png: validate APNG IHDR length
+      ico: validate palette size for indexed images
+      id3: reject external APIC picture links
+      loaders: limit decompressed temporary output
+      j2k: limit decoded image dimensions
+      y4m: read high-bit-depth grayscale samples safely
+
+Chema Gonzalez (1):
+      PNM loader: add support for 16-bit (high depth) PGM/PPM/PAM
+
+Kim Woelders (14):
+      test: Keep LD_LIBRARY_PATH when running tests
+      test: Corrections for for libjxl-0.11
+      JXL loader: Refactor runners handling
+      JXL loader: Change runners from max 4 to ncores/2
+      BMP loader: Fix alpha detection
+      test_load_2: Add more checks for transparent images
+      TIFF saver: Fix saving images with alpha
+      AVIF saver: Fix saving images with alpha
+      test_scale_2: Tweaks
+      test_scale: Updates for uscaler
+      Spec file: Add a %conf section
+      test_save: Additions for libheif 1.21
+      test_save: Adjustment for libjxl 0.11
+      v1.12.7
+
+NRK (3):
+      scale: add bicubic scaling via uscaler
+      third-party: update uscaler
+      scale: support flips with uscaler
+
 v1.12.6 - 2026-01-03
 --------------------
 Chema Gonzalez (7):
