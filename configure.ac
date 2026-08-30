@@ -239,7 +239,7 @@ loader_check_y4m() {
 
 EC_LOADER_CHECK(AVIF, auto, libavif)
 EC_LOADER_CHECK(GIF,  auto, , loader_check_gif)
-EC_LOADER_CHECK(HEIF, auto, libheif)
+EC_LOADER_CHECK(HEIF, auto, libheif >= 1.17.0)
 EC_LOADER_CHECK(JPEG, auto, libjpeg)
 EC_LOADER_CHECK(J2K,  auto, libopenjp2)
 EC_LOADER_CHECK(JXL,  auto, libjxl libjxl_threads)
