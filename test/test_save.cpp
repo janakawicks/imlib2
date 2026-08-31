@@ -43,11 +43,16 @@ static const test_rec_t exts[] = {
    { "avif", {  271316575,  632516970 } },
 #endif
    { "heic", { 2429908023, 1720725349 } },
-#else
+#elif LIBHEIF_HAVE_VERSION(1, 18, 0)
 #ifndef BUILD_AVIF_LOADER
    { "avif", {  458570512, 4237984766 } },
 #endif
    { "heic", { 4046271191,  793249753 } },
+#else
+#ifndef BUILD_AVIF_LOADER
+   { "avif", {  271316575, 4237984766 } },
+#endif
+   { "heic", { 2429908023, 1720725349 } },
 #endif
 #endif
 #endif

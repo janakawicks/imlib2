@@ -51,9 +51,12 @@ static tii_t    tii[] = {
 #if LIBHEIF_HAVE_VERSION(1, 19, 0)
    { "image-noalp-64.heif",             2791706719 },
    { "image-alpha-64.heif",             2131715016 },
-#else
+#elif LIBHEIF_HAVE_VERSION(1, 18, 0)
    { "image-noalp-64.heif",             2910467726 },
    { "image-alpha-64.heif",              722818128 },
+#else
+   { "image-noalp-64.heif",             2791706719 },
+   { "image-alpha-64.heif",             2131715016 },
 #endif
 #endif
    { "image-noalp-64.ico",              1636116234 },
