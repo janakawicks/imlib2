@@ -154,8 +154,11 @@ test_load(void)
 
         if (strchr(pfxs[i], '.') == 0)
         {
-            snprintf(filei, sizeof(filei),
-                     "../%s/%s.%s", IMG_SRC, FILE_PFX1, pfxs[i]);
+            // The symlinks are created in IMG_GEN, one level below the build
+            // directory, so a relative IMG_SRC must be prefixed with "../".
+            snprintf(filei, sizeof(filei), "%s%s/%s.%s",
+                     IMG_SRC[0] == '/' ? "" : "../",
+                     IMG_SRC, FILE_PFX1, pfxs[i]);
             for (j = 0; j < N_PFX; j++)
             {
                 // Load certain types pretending they are something else
