@@ -244,11 +244,3 @@ __imlib_CmodModGamma(ImlibColorModifier *cm, double v)
         cm->alpha_mapping[i] = (uint8_t) val2;
     }
 }
-
-#if 0
-void
-__imlib_ImageCmodApply(ImlibImage *im, ImlibColorModifier *cm)
-{
-    __imlib_DataCmodApply(im->data, im->w, im->h, 0, cm);
-}
-#endif
