@@ -25,7 +25,7 @@ static const test_rec_t exts[] = {
 // { "ani",  { 0, 0 } },
    { "argb", { 1636116234,  169859126 } },
 #ifdef BUILD_AVIF_LOADER
-   { "avif", {  396346040, 4290275062 } },
+   { "avif", { 3356186613,  841904361 } },
 #endif
    { "bmp",  { 1636116234,  247945219 } },
 // { "bz2",  { 0, 0 } },
@@ -35,7 +35,7 @@ static const test_rec_t exts[] = {
 #ifndef __SANITIZE_ADDRESS__
 #if LIBHEIF_HAVE_VERSION(1, 23, 0)
 #ifndef BUILD_AVIF_LOADER
-   { "avif", {  498854715, 1967959499 } },
+   { "avif", { 3930796581, 3819395051 } },
 #endif
    { "heic", { 2429908023, 1720725349 } },
 #elif LIBHEIF_HAVE_VERSION(1, 21, 0)
