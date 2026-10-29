@@ -98,10 +98,17 @@ _load(ImlibImage *im, int load_data)
     if (!__imlib_AllocateData(im))
         QUIT_WITH_RC(LOAD_OOM);
 
+#ifdef WORDS_BIGENDIAN
+    if (WebPDecodeARGBInto
+        (iter.fragment.bytes, iter.fragment.size, (uint8_t *) im->data,
+         sizeof(uint32_t) * im->w * im->h, im->w * 4) == NULL)
+        goto quit;
+#else
     if (WebPDecodeBGRAInto
         (iter.fragment.bytes, iter.fragment.size, (uint8_t *) im->data,
          sizeof(uint32_t) * im->w * im->h, im->w * 4) == NULL)
         goto quit;
+#endif
 
     if (im->lc)
         __imlib_LoadProgress(im, 0, 0, im->w, im->h);
