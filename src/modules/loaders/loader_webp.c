@@ -165,8 +165,16 @@ _save(ImlibImage *im)
     pic.height = im->h;
     pic.writer = webp_write;
     pic.custom_ptr = f;
-    if (!WebPPictureImportBGRA(&pic, (uint8_t *) im->data, im->w * 4))
-        QUIT_WITH_RC(LOAD_OOM);
+    if (im->has_alpha)
+    {
+        if (!WebPPictureImportBGRA(&pic, (uint8_t *) im->data, im->w * 4))
+            QUIT_WITH_RC(LOAD_OOM);
+    }
+    else
+    {
+        if (!WebPPictureImportBGRX(&pic, (uint8_t *) im->data, im->w * 4))
+            QUIT_WITH_RC(LOAD_OOM);
+    }
     free_pic = 1;
 
     if (!WebPEncode(&conf, &pic))
